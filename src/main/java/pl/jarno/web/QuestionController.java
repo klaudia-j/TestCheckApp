@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pl.jarno.entity.Answer;
 import pl.jarno.entity.Question;
-import pl.jarno.jsonclass.QuestionWithAnswers;
 import pl.jarno.repository.AnswerRepository;
 import pl.jarno.repository.CategoryRepository;
 import pl.jarno.repository.QuestionRepository;
@@ -33,16 +32,14 @@ public class QuestionController {
 	private AnswerRepository answerRepo;
 	
 	@PostMapping("/{categoryId}/questions")
-	public QuestionWithAnswers createQuestion(@RequestBody QuestionWithAnswers questionWithAnswers, @PathVariable Long categoryId) {
-		Question question = questionWithAnswers.getQuestion();
+	public Question createQuestion(@RequestBody Question question, @PathVariable Long categoryId) {
+		List<Answer> answers = question.getAnswers();
 		question.setCategory(categoryRepo.findOne(categoryId));
 		questionRepo.save(question);
-		List<Answer> answers = questionWithAnswers.getAnswers();
 		for (int i = 0; i < answers.size(); i++) {
 			answerRepo.save(answers.get(i));
 		}
-		question.setAnswers(answers);
-		return questionWithAnswers;
+		return question;
 	}
 	
 //	@PostMapping("/{categoryId}/questions")
@@ -65,7 +62,15 @@ public class QuestionController {
 	
 	@PutMapping("/{categoryId}/questions/{questionId}")
 	public Question updateQuestion(@RequestBody Question question, @PathVariable Long categoryId, @PathVariable Long questionId) {
+		Question questionToUpdate = questionRepo.findOne(questionId);
+		List<Answer> answersToDelete = questionToUpdate.getAnswers();
+		answerRepo.delete(answersToDelete);
 		question.setId(questionId);
+		question.setCategory(categoryRepo.findOne(categoryId));
+		List<Answer> answers = question.getAnswers();
+		for (int i = 0; i < answers.size(); i++) {
+			answerRepo.save(answers.get(i));
+		}
 		questionRepo.save(question);
 		return question;
 	}
@@ -74,5 +79,6 @@ public class QuestionController {
 	public void deleteQuestion(@PathVariable long categoryId, @PathVariable long questionId) {
 		questionRepo.delete(questionId);
 	}
+	
 
 }

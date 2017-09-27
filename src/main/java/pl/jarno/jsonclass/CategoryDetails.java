@@ -1,26 +1,29 @@
 package pl.jarno.jsonclass;
 
+import java.util.List;
+
+import pl.jarno.entity.Question;
 import pl.jarno.jsonclass.superior.CategoryJson;
 
 public class CategoryDetails extends CategoryJson {
 	
-	private QuestionWithAnswers questions;
+	private List<Question> questions;
 	
 	public CategoryDetails() {
 		
 	}
 	
-	public CategoryDetails (Long id, String name, QuestionWithAnswers questions) {
+	public CategoryDetails (Long id, String name, List<Question> questions) {
 		super(id, name);
 		this.questions = questions;
 	}
 
-	public QuestionWithAnswers getQuestions() {
+	public List <Question> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(QuestionWithAnswers questions) {
-		this.questions = questions;
+	public void setQuestions(List<Question> list) {
+		this.questions = list;
 	}
 	
 	

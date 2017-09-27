@@ -20,13 +20,13 @@ public class TestPattern {
 		private String title;
 		private String teacherName;
 		private boolean isNameRequired;
-		private boolean isIdRquired;
-		private boolean additionalInformation;
+		private boolean isIdRequired;
+		private String additionalInformation;
 		private int gradingMethod;
-		@ManyToOne
-		private User user;
 		private Date createdDate;
 		private boolean isSingleChoice;
+		@ManyToOne
+		private User user;
 		
 		public TestPattern() {
 		}
@@ -52,21 +52,24 @@ public class TestPattern {
 		public boolean isNameRequired() {
 			return isNameRequired;
 		}
-		public void setNameRequired(boolean isNameRequired) {
+		public void setIsNameRequired(boolean isNameRequired) {
 			this.isNameRequired = isNameRequired;
 		}
-		public boolean isIdRquired() {
-			return isIdRquired;
+		public boolean isIdRequired() {
+			return isIdRequired;
 		}
-		public void setIdRquired(boolean isIdRquired) {
-			this.isIdRquired = isIdRquired;
+		public void setIsIdRequired(boolean isIdRequired) {
+			this.isIdRequired = isIdRequired;
 		}
-		public boolean isAdditionalInformation() {
+		
+		public String getAdditionalInformation() {
 			return additionalInformation;
 		}
-		public void setAdditionalInformation(boolean additionalInformation) {
+
+		public void setAdditionalInformation(String additionalInformation) {
 			this.additionalInformation = additionalInformation;
 		}
+
 		public int getGradingMethod() {
 			return gradingMethod;
 		}
@@ -88,7 +91,7 @@ public class TestPattern {
 		public boolean isSingleChoice() {
 			return isSingleChoice;
 		}
-		public void setSingleChoice(boolean isSingleChoice) {
+		public void setIsSingleChoice(boolean isSingleChoice) {
 			this.isSingleChoice = isSingleChoice;
 		}
 		

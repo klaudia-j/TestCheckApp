@@ -6,6 +6,9 @@ public class CategoryViewAll extends CategoryJson {
 	
 	private int questionCount;
 	
+	public CategoryViewAll() {
+		
+	}
 	
 	CategoryViewAll (Long id, String name, int questionCount) {
 		super(id, name);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.jarno.entity.Category;
+import pl.jarno.entity.Question;
 import pl.jarno.jsonclass.CategoryDetails;
 import pl.jarno.jsonclass.CategoryViewAll;
 import pl.jarno.repository.CategoryRepository;
@@ -33,35 +34,36 @@ public class CategoryController {
 	private QuestionRepository questionRepo;
 
 	
-	@GetMapping("/")
-	public List<Category> getCategories() {
-		List<Category> listFromDatabase = categoryRepo.findAll();
-		return listFromDatabase;
-	}
-	
 //	@GetMapping("/")
-//	public List<CategoryViewAll> getCategories() {
+//	public List<Category> getCategories() {
 //		List<Category> listFromDatabase = categoryRepo.findAll();
-//		List<CategoryViewAll> listToDisplay = new ArrayList<>();
-//		for (int i = 0; i < listFromDatabase.size(); i++) {
-//			listToDisplay.get(i).setId(listFromDatabase.get(i).getId());
-//			listToDisplay.get(i).setName(listFromDatabase.get(i).getName());
-//			listToDisplay.get(i).setQuestionCount(questionRepo.countByCategoryId(listFromDatabase.get(i).getId()));
-//		}
-//		return listToDisplay;
+//		return listFromDatabase;
 //	}
 	
+	@GetMapping("/")
+	public List<CategoryViewAll> getCategories() {
+		List<Category> listFromDatabase = categoryRepo.findAll();
+		List<CategoryViewAll> listToDisplay = new ArrayList<>();
+		for (int i = 0; i < listFromDatabase.size(); i++) {
+			CategoryViewAll category = new CategoryViewAll();
+			category.setId(listFromDatabase.get(i).getId());
+			category.setName(listFromDatabase.get(i).getName());
+			category.setQuestionCount(questionRepo.countByCategoryId(listFromDatabase.get(i).getId()));
+			listToDisplay.add(category);
+		}
+		return listToDisplay;
+	}
+	
 	@GetMapping("/{id}")
-	public CategoryDetails getCategory(@PathVariable long id) {
+	public CategoryDetails getCategoryDetails(@PathVariable long id) {
 		Category categoryFromDatabase = categoryRepo.findOne(id);
 		CategoryDetails categoryToDisplay = new CategoryDetails();
 		categoryToDisplay.setId(categoryFromDatabase.getId());
-		
-		
-		
+		categoryToDisplay.setName(categoryFromDatabase.getName());
+		categoryToDisplay.setQuestions(questionRepo.findByCategoryId(id));
 		return categoryToDisplay;
 	}
-	
+//	
 //	@GetMapping("/{id}")
 //	public CategoryWithQuestions getCategory(@PathVariable long id) {
 //		CategoryWithQuestions categoryWithQuestions = new CategoryWithQuestions();
@@ -71,7 +73,6 @@ public class CategoryController {
 //	}
 	
 	@PostMapping("/")
-//	@ResponseStatus(HttpStatus.OK)
 	public Category createCategory(@RequestBody Category category) {
 		categoryRepo.save(category);
 		return category;
@@ -86,6 +87,8 @@ public class CategoryController {
 	
 	@DeleteMapping("/{id}")
 	public void deleteCategory(@PathVariable long id) {
+		List<Question> questionsToDelete = questionRepo.findByCategoryId(id);
+		questionRepo.delete(questionsToDelete);
 		categoryRepo.delete(id);
 	}
 	
