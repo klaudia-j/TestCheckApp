@@ -12,6 +12,7 @@ import pl.jarno.entity.Question;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 	
 	List<Question> findByCategoryId(Long id);
+	int countByCategoryId(Long id);
 	
 
 }

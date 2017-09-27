@@ -1,6 +1,9 @@
 package pl.jarno.web;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.jarno.entity.Category;
-import pl.jarno.entity.Question;
-import pl.jarno.jsonclass.CategoryWithQuestions;
+import pl.jarno.jsonclass.CategoryDetails;
+import pl.jarno.jsonclass.CategoryViewAll;
 import pl.jarno.repository.CategoryRepository;
 import pl.jarno.repository.QuestionRepository;
-import pl.jarno.repository.UserRepository;
 
+@Transactional
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -30,17 +33,33 @@ public class CategoryController {
 	private QuestionRepository questionRepo;
 
 	
-	
 	@GetMapping("/")
 	public List<Category> getCategories() {
-		List<Category> list = categoryRepo.findAll();
-		return list;
+		List<Category> listFromDatabase = categoryRepo.findAll();
+		return listFromDatabase;
 	}
 	
+//	@GetMapping("/")
+//	public List<CategoryViewAll> getCategories() {
+//		List<Category> listFromDatabase = categoryRepo.findAll();
+//		List<CategoryViewAll> listToDisplay = new ArrayList<>();
+//		for (int i = 0; i < listFromDatabase.size(); i++) {
+//			listToDisplay.get(i).setId(listFromDatabase.get(i).getId());
+//			listToDisplay.get(i).setName(listFromDatabase.get(i).getName());
+//			listToDisplay.get(i).setQuestionCount(questionRepo.countByCategoryId(listFromDatabase.get(i).getId()));
+//		}
+//		return listToDisplay;
+//	}
+	
 	@GetMapping("/{id}")
-	public Category getCategory(@PathVariable long id) {
-		Category category = categoryRepo.findOne(id);
-		return category;
+	public CategoryDetails getCategory(@PathVariable long id) {
+		Category categoryFromDatabase = categoryRepo.findOne(id);
+		CategoryDetails categoryToDisplay = new CategoryDetails();
+		categoryToDisplay.setId(categoryFromDatabase.getId());
+		
+		
+		
+		return categoryToDisplay;
 	}
 	
 //	@GetMapping("/{id}")

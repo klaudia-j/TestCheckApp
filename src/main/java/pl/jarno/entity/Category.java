@@ -25,9 +25,8 @@ public class Category {
 	private String name;
 	@ManyToOne
 	private User user;
-	@JsonIgnore
-	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "category")
-	private List<Question> questions = new ArrayList<>();
+//	@OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "category")
+//	private List<Question> questions = new ArrayList<>();
 	
 	
 	public Category() {
@@ -53,13 +52,13 @@ public class Category {
 		this.user = user;
 	}
 
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
-	}
+//	public List<Question> getQuestions() {
+//		return questions;
+//	}
+//
+//	public void setQuestions(List<Question> questions) {
+//		this.questions = questions;
+//	}
 	
 	
 }

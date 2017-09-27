@@ -20,9 +20,9 @@ public class Answer {
 	private String content;
 	@Column(name = "is_correct")
 	private boolean isCorrect;
-	@JsonIgnore
-	@ManyToOne
-	private Question question;
+//	@JsonIgnore
+//	@ManyToOne
+//	private Question question;
 	
 	public Answer() {
 	}
@@ -45,12 +45,12 @@ public class Answer {
 	public void setIsCorrect(boolean isCorrect) {
 		this.isCorrect = isCorrect;
 	}
-	public Question getQuestion() {
-		return question;
-	}
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
+//	public Question getQuestion() {
+//		return question;
+//	}
+//	public void setQuestion(Question question) {
+//		this.question = question;
+//	}
 	
 	
 	

@@ -2,6 +2,8 @@ package pl.jarno.web;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import pl.jarno.repository.AnswerRepository;
 import pl.jarno.repository.CategoryRepository;
 import pl.jarno.repository.QuestionRepository;
 
+@Transactional
 @RestController
 @RequestMapping("/categories")
 public class QuestionController {
@@ -36,9 +39,9 @@ public class QuestionController {
 		questionRepo.save(question);
 		List<Answer> answers = questionWithAnswers.getAnswers();
 		for (int i = 0; i < answers.size(); i++) {
-			answers.get(i).setQuestion(question);
 			answerRepo.save(answers.get(i));
 		}
+		question.setAnswers(answers);
 		return questionWithAnswers;
 	}
 	

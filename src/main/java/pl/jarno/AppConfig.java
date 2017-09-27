@@ -18,7 +18,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pl.jarno.converter.AnswerConverter;
 import pl.jarno.converter.CategoryConverter;
 import pl.jarno.converter.QuestionConverter;
-import pl.jarno.entity.Category;
+
 
 @Configuration
 @EnableTransactionManagement
